@@ -1,0 +1,87 @@
+schema_version: 1
+
+context:
+  name: pyroomacoustics
+  version: "0.8.3"
+  build_number: 2
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
+  sha256: 5619bcab3d03ffa4221383cf1ebaa2f078335c08d45601e10864612c8cbbc7d3
+  patches:
+    - remove-build-deps-from-runtime-metadata.patch
+    - use-system-eigen.patch
+    - remove-bundled-eigen-from-manifest.patch
+
+build:
+  number: ${{ build_number }}
+  script:
+    - if: unix
+      then:
+        - export EIGEN_INCLUDE_DIR="${PREFIX}/include/eigen3"
+        - rm -rf pyroomacoustics/libroom_src/ext/eigen
+        - python -m pip install . -vv --no-deps --no-build-isolation
+    - if: win
+      then:
+        - set EIGEN_INCLUDE_DIR=%LIBRARY_PREFIX%\include\eigen3
+        - if exist pyroomacoustics\libroom_src\ext\eigen rmdir /S /Q pyroomacoustics\libroom_src\ext\eigen
+        - python -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  build:
+    - ${{ compiler("cxx") }}
+    - ${{ stdlib("c") }}
+    - if: build_platform != target_platform
+      then:
+        - cross-python_${{ target_platform }}
+        - cython
+        - numpy
+        - pip
+        - pybind11 >=2.2
+        - python
+        - setuptools
+        - wheel
+  host:
+    - cython
+    - eigen
+    - numpy  # for global pinnings
+    - numpy >=1.13.0
+    - pip
+    - pybind11 >=2.2
+    - python
+    - setuptools
+    - wheel
+  run:
+    # numpy has run exports
+    - python
+    - scipy >=0.18.0
+
+tests:
+  - python:
+      imports:
+        - pyroomacoustics
+  - script:
+      - python run_test.py
+      - pip check
+    files:
+      recipe:
+        - run_test.py
+    requirements:
+      run:
+        - pip
+        - python
+
+about:
+  homepage: https://github.com/LCAV/pyroomacoustics
+  repository: https://github.com/LCAV/pyroomacoustics
+  summary: Pyroomacoustics is a package for audio signal processing for indoor applications
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - jeongseok-meta
