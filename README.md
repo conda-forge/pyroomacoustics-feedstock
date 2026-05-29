@@ -7,7 +7,9 @@ Home: https://github.com/LCAV/pyroomacoustics
 
 Package license: MIT
 
-Summary: Pyroomacoustics is a package for audio signal processing for indoor applications. It was developed as a fast prototyping platform for beamforming algorithms in indoor scenarios
+Summary: Pyroomacoustics is a package for audio signal processing for indoor applications
+
+Development: https://github.com/LCAV/pyroomacoustics
 
 Current build status
 ====================
