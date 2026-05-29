@@ -14,7 +14,7 @@ source:
       - remove-bundled-eigen-from-manifest.patch
 
 build:
-  number: 0
+  number: 1
   script:
     - export EIGEN_INCLUDE_DIR=$PREFIX/include/eigen3  # [unix]
     - set EIGEN_INCLUDE_DIR=%LIBRARY_PREFIX%\include\eigen3  # [win]
