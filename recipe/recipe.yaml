@@ -25,7 +25,6 @@ build:
         - python -m pip install . -vv --no-deps --no-build-isolation
     - if: win
       then:
-        - set CMAKE_GENERATOR=Ninja
         - python -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
