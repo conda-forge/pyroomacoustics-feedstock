@@ -1,0 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -5,8 +5,9 @@ project(pyroomacoustics)
+ # Find pybind11 (handled by external/CMakeLists.txt via FetchContent)
+ set(PYBIND11_FINDPYTHON ON)
+ 
+-# adds the external dependencies
+-add_subdirectory(external)
++find_package(Eigen3 REQUIRED CONFIG)
++find_package(nanoflann REQUIRED CONFIG)
++find_package(pybind11 REQUIRED CONFIG)
+ 
+ # Source directory for libroom
+ set(LIBROOM_SRC_DIR pyroomacoustics/libroom_src)
