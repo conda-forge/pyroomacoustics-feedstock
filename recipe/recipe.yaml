@@ -14,46 +14,51 @@ source:
   sha256: 26aa7d680e68d0b947220026b95b1c5a05eee08f38c53ff49a7804672c0a2886
   patches:
     - remove-build-deps-from-runtime-metadata.patch
-    - use-system-eigen.patch
-    - remove-bundled-eigen-from-manifest.patch
+    - use-system-cmake-dependencies.patch
 
 build:
   number: ${{ build_number }}
   script:
     - if: unix
       then:
-        - export EIGEN_INCLUDE_DIR="${PREFIX}/include/eigen3"
-        - rm -rf pyroomacoustics/libroom_src/ext/eigen
         - python -m pip install . -vv --no-deps --no-build-isolation
     - if: win
       then:
-        - set EIGEN_INCLUDE_DIR=%LIBRARY_PREFIX%\include\eigen3
-        - if exist pyroomacoustics\libroom_src\ext\eigen rmdir /S /Q pyroomacoustics\libroom_src\ext\eigen
         - python -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   build:
     - ${{ compiler("cxx") }}
     - ${{ stdlib("c") }}
+    - cmake
+    - ninja
     - if: build_platform != target_platform
       then:
         - cross-python_${{ target_platform }}
+        - cmake
         - cython
+        - nanoflann
+        - ninja
         - numpy
         - pip
-        - pybind11 >=2.2
+        - pybind11
         - python
         - setuptools
+        - setuptools-scm
         - wheel
   host:
+    - cmake
     - cython
     - eigen
+    - nanoflann
+    - ninja
     - numpy  # for global pinnings
     - numpy >=1.13.0
     - pip
-    - pybind11 >=2.2
+    - pybind11
     - python
     - setuptools
+    - setuptools-scm
     - wheel
   run:
     # numpy has run exports
