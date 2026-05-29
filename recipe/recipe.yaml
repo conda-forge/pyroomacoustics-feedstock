@@ -3,7 +3,7 @@ schema_version: 1
 context:
   name: pyroomacoustics
   version: "0.8.3"
-  build_number: 2
+  build_number: 3
 
 package:
   name: ${{ name|lower }}
