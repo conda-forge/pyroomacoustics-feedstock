@@ -1,44 +1,15 @@
-diff --git a/external/CMakeLists.txt b/external/CMakeLists.txt
---- a/external/CMakeLists.txt
-+++ b/external/CMakeLists.txt
-@@ -1,37 +1,3 @@
--include(FetchContent)
--
--# eigen
--FetchContent_Declare(
--  eigen
--  GIT_REPOSITORY https://gitlab.com/libeigen/eigen
--  GIT_TAG 5.0.1
--)
--
--# nanoflann
--FetchContent_Declare(
--  nanoflann
--  GIT_REPOSITORY https://github.com/jlblancoc/nanoflann
--  GIT_TAG v1.9.0
--)
--
--# pybind11
--FetchContent_Declare(
--  pybind11
--  GIT_REPOSITORY https://github.com/pybind/pybind11
--  GIT_TAG v3.0.1
--)
--
--# eigen
--set(EIGEN_BUILD_PKGCONFIG OFF CACHE BOOL "Disable Eigen pkg-config")
--set(EIGEN_BUILD_TESTING OFF CACHE BOOL "Disable Eigen testing")
--set(BUILD_TESTING OFF CACHE BOOL "Disable testing")
--
--# nanoflann
--set(NANOFLANN_BUILD_EXAMPLES OFF CACHE BOOL "Disable nanoflann examples" FORCE)
--set(NANOFLANN_BUILD_TESTS OFF CACHE BOOL "Disable nanoflann tests" FORCE)
--set(BUILD_BENCHMARKS OFF CACHE BOOL "Disable nanoflann benchmarks" FORCE)
--
--# pybind11
--set(PYBIND11_TEST OFF CACHE BOOL "Disable pybind11 tests")
--
--FetchContent_MakeAvailable(eigen nanoflann pybind11)
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -5,8 +5,9 @@ project(pyroomacoustics)
+ # Find pybind11 (handled by external/CMakeLists.txt via FetchContent)
+ set(PYBIND11_FINDPYTHON ON)
+ 
+-# adds the external dependencies
+-add_subdirectory(external)
 +find_package(Eigen3 REQUIRED CONFIG)
 +find_package(nanoflann REQUIRED CONFIG)
 +find_package(pybind11 REQUIRED CONFIG)
+ 
+ # Source directory for libroom
+ set(LIBROOM_SRC_DIR pyroomacoustics/libroom_src)
